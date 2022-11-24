@@ -1,0 +1,10 @@
+:root{
+  --main-font: 'Atkinson Hyperlegible', sans-serif;
+  --mono-font: 'JetBrains Mono', monospace;
+}
+
+html, body{
+  padding: 0;
+  margin: 0;
+  font-family: var(--main-font);
+}
