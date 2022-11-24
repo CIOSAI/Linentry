@@ -1,23 +1,22 @@
 <script lang="ts">
   import { COMMANDS, Linentry, receiver } from '$lib/linentry.js';
 
-  let arr = ['a', 'b', 'c']
-
   let say = ''
 
   receiver.out = (s:string) => {
     say = s
   }
 
-  let linentry = new Linentry({main: 0, 
-    commands: [COMMANDS.SUM, COMMANDS.LOG], data: [[65], [66]]
-  })
+  let linentry = new Linentry({main: 0, line: [
+    {command: COMMANDS.SUM, data: [1, 2, 3, 4, 5]},
+    {command: COMMANDS.LOG, data: []},
+  ]})
 </script>
 
 <div id='viewport'>
   <div id='bruh'>
-    {#each arr as i}
-      <span class='entry'>{i}</span>
+    {#each linentry.src.line as i}
+      <span class='entry'>{i.command.name} operating on {i.data}</span>
     {/each}
   </div>
   <button on:click={()=>{linentry.next()}}>next line</button>

@@ -24,12 +24,12 @@ const COMMANDS = {
 
   READ :      {trigger: (data: number[], src:Source)=>{
     return {data: 
-      (Math.floor(data[0]) in src.data)?src.data[Math.floor(data[0])]:[], 
+      (Math.floor(data[0]) in src.line)?src.line[Math.floor(data[0])].data:[], 
     nextLine: -1}
   }, name: 'READ'},
 
   WRITE :     {trigger: (data: number[], src:Source)=>{
-    src.data[data[data.length-1]] = data.slice(0, data.length-1)
+    src.line[data[data.length-1]].data = data.slice(0, data.length-1)
     return {data: [], nextLine: -1}
   }, name: 'WRITE'},
 
@@ -38,10 +38,14 @@ const COMMANDS = {
   }, name: 'ON'},
 }
 
+interface Line{
+  command : Command,
+  data : number[],
+}
+
 interface Source{
   main : number,
-  commands : Command[],
-  data : number[][],
+  line : Line[],
 }
 
 interface Result{
@@ -65,11 +69,11 @@ class Linentry{
   }
 
   getCommand(){
-    return (this.currentLine in this.src.commands)?this.src.commands[this.currentLine]:COMMANDS.NOCOMMAND
+    return (this.currentLine in this.src.line)?this.src.line[this.currentLine].command:COMMANDS.NOCOMMAND
   }
 
   getData(){
-    return (this.currentLine in this.src.data)?this.src.data[this.currentLine]:[]
+    return (this.currentLine in this.src.line)?this.src.line[this.currentLine].data:[]
   }
 
   next(){
