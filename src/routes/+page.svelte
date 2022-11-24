@@ -8,18 +8,24 @@
   }
 
   let linentry = new Linentry({main: 0, line: [
-    {command: COMMANDS.SUM, data: [1, 2, 3, 4, 5]},
-    {command: COMMANDS.LOG, data: []},
+    {command: COMMANDS.LOG, data: [1]},
+    {command: COMMANDS.LOG, data: [2]},
+    {command: COMMANDS.ON, data: [1, 0, 3]},
   ]})
+
+  let renderedLines = linentry.src.line.map(v=>{ return {name: v.command.name, data: v.data} });
+  function rerender(){
+    renderedLines = linentry.src.line.map(v=>{ return {name: v.command.name, data: v.data} });
+  }
 </script>
 
 <div id='viewport'>
   <div id='bruh'>
-    {#each linentry.src.line as i}
-      <span class='entry'>{i.command.name} operating on {i.data}</span>
+    {#each renderedLines as i}
+      <span class='entry'>{i.name} operating on {i.data}</span>
     {/each}
   </div>
-  <button on:click={()=>{linentry.next()}}>next line</button>
+  <button on:click={()=>{linentry.next(); rerender()}}>next line</button>
   <span>linentry says : {say}</span>
 </div>
 
