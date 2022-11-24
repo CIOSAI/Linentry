@@ -1,9 +1,17 @@
 <script lang="ts">
-  import { Linentry } from '$lib/linentry.js';
+  import { COMMANDS, Linentry, receiver } from '$lib/linentry.js';
 
-  let arr = ['a', 'b', 'c'];
+  let arr = ['a', 'b', 'c']
 
-  let say = Linentry.hello();
+  let say = ''
+
+  receiver.out = (s:string) => {
+    say = s
+  }
+
+  let linentry = new Linentry({main: 0, 
+    commands: [COMMANDS.SUM, COMMANDS.LOG], data: [[65], [66]]
+  })
 </script>
 
 <div id='viewport'>
@@ -12,7 +20,8 @@
       <span class='entry'>{i}</span>
     {/each}
   </div>
-  <span>{say}</span>
+  <button on:click={()=>{linentry.next()}}>next line</button>
+  <span>linentry says : {say}</span>
 </div>
 
 <style>
