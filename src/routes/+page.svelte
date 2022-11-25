@@ -28,7 +28,7 @@
 <div id='viewport'>
   <table class='table'>
     {#each renderedLines as i, ind}
-      <Entry line={i} isMain={ind==linentry.src.main} isRunning={ind==currentLine}/>
+      <Entry line={i} ind={ind} isMain={ind==linentry.src.main} isRunning={ind==currentLine}/>
     {/each}
   </table>
   <button on:click={()=>{linentry.next(); rerender()}}>next line</button>
@@ -44,5 +44,9 @@
   #viewport{
     width: 100vw;
     height: 100vh;
+  }
+
+  .table{
+    padding: 2em;
   }
 </style>

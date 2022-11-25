@@ -1,18 +1,19 @@
 <script lang="ts">
-  import {type RenderedLine} from '$lib/linentry'
+  import {type RenderedLine, namesToCommands} from '$lib/linentry'
+  import AutocompleteText from './AutocompleteText.svelte';
   export let line:RenderedLine
+  export let ind = 0
   export let isRunning = false
   export let isMain = false
 </script>
 
 <tr class='entry'>
+  <td>{ind}</td>
   <td class='tick' style='color: {isRunning?'#0f0':(isMain?'#f00':'#00000000')}'>{'>'}</td>
-  <td class='command'><input type='text' value={line.command}></td>
-  <td class='data'>
-    {#each line.data as i}
-      <span class='unit'>{i}</span>
-    {/each}
-  </td>
+  <td class='command'><AutocompleteText allowed={Array.from(namesToCommands.keys())} value={line.command}/></td>
+  {#each line.data as i}
+    <td class='unit'>{i}</td>
+  {/each}
 </tr>
 
 <style>
