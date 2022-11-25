@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { COMMANDS, Linentry, receiver } from '$lib/linentry.js';
+  import { COMMANDS, namesToCommands, Linentry, receiver } from '$lib/linentry.js';
   import Entry from '$lib/Entry.svelte';
 
   let say:string[] = []
@@ -28,7 +28,12 @@
 <div id='viewport'>
   <table class='table'>
     {#each renderedLines as i, ind}
-      <Entry line={i} ind={ind} isMain={ind==linentry.src.main} isRunning={ind==currentLine}/>
+      <Entry line={i} ind={ind} isMain={ind==linentry.src.main} isRunning={ind==currentLine}
+        onCommandChanged={(index, str)=>{
+          // @ts-ignore
+          linentry.src.line[index].command = namesToCommands.has(str)?namesToCommands.get(str):COMMANDS.NOCOMMAND
+        }}
+      />
     {/each}
   </table>
   <button on:click={()=>{linentry.next(); rerender()}}>next line</button>

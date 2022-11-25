@@ -1,6 +1,7 @@
 <script lang="ts">
   export let allowed:string[] = []
   export let value = ''
+  export let valueHandler = (s:string)=>{}
 
   let suggest = ''
 
@@ -34,9 +35,12 @@
 <div id='container'>
   <input id='input' type='text' bind:value 
   on:keydown={(e)=>{
-    if(e.key==='Tab') value = suggest
+    if(e.key==='Tab'){
+      value = suggest
+      valueHandler(value)
+    } 
   }}
-  on:focusout={()=>{value = suggest}}>
+  on:focusout={()=>{value = suggest;valueHandler(value)}}>
   <span id='actual'>{value}</span>
   <span id='suggest'>{suggest.slice(value.length)}</span>
 </div>
