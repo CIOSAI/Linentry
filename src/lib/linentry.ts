@@ -38,9 +38,23 @@ const COMMANDS = {
   }, name: 'ON'},
 }
 
+const namesToCommands = new Map([
+  ['SUM', COMMANDS.SUM],
+  ['LOG', COMMANDS.LOG],
+  ['ECHO', COMMANDS.ECHO],
+  ['READ', COMMANDS.READ],
+  ['WRITE', COMMANDS.WRITE],
+  ['ON', COMMANDS.ON],
+])
+
 interface Line{
   command : Command,
   data : number[],
+}
+
+interface RenderedLine{
+  command : string,
+  data : number[]
 }
 
 interface Source{
@@ -86,4 +100,4 @@ class Linentry{
   }
 }
 
-export {COMMANDS, Linentry, receiver}
+export {COMMANDS, namesToCommands, type RenderedLine, Linentry, receiver}

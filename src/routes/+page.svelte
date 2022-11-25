@@ -1,32 +1,43 @@
 <script lang="ts">
   import { COMMANDS, Linentry, receiver } from '$lib/linentry.js';
+  import Entry from '$lib/Entry.svelte';
 
-  let say = ''
+  let say:string[] = []
 
   receiver.out = (s:string) => {
-    say = s
+    say.push(s)
   }
 
-  let linentry = new Linentry({main: 0, line: [
-    {command: COMMANDS.LOG, data: [1]},
-    {command: COMMANDS.LOG, data: [2]},
-    {command: COMMANDS.ON, data: [1, 0, 3]},
+  let linentry = new Linentry({main: 1, line: [
+    {command: COMMANDS.NOCOMMAND, data: []},
+    {command: COMMANDS.WRITE, data: [1, 0]},
+    {command: COMMANDS.WRITE, data: [2, 0]},
+    {command: COMMANDS.ON, data: [1, 1, 4]},
   ]})
 
-  let renderedLines = linentry.src.line.map(v=>{ return {name: v.command.name, data: v.data} });
+  let renderedLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
+  let currentLine = linentry.src.main
+  
   function rerender(){
-    renderedLines = linentry.src.line.map(v=>{ return {name: v.command.name, data: v.data} });
+    renderedLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
+    currentLine = linentry.currentLine
+    say = say
   }
 </script>
 
 <div id='viewport'>
-  <div id='bruh'>
-    {#each renderedLines as i}
-      <span class='entry'>{i.name} operating on {i.data}</span>
+  <table class='table'>
+    {#each renderedLines as i, ind}
+      <Entry line={i} isMain={ind==linentry.src.main} isRunning={ind==currentLine}/>
+    {/each}
+  </table>
+  <button on:click={()=>{linentry.next(); rerender()}}>next line</button>
+  <span>linentry says :</span>
+  <div class='messages'>
+    {#each say as i}
+      <p>{i}</p>
     {/each}
   </div>
-  <button on:click={()=>{linentry.next(); rerender()}}>next line</button>
-  <span>linentry says : {say}</span>
 </div>
 
 <style>
@@ -34,18 +45,4 @@
     width: 100vw;
     height: 100vh;
   }
-
-  #bruh{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .entry{
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    width: 100%;
-    border: 2px solid rgb(11, 62, 7)  }
 </style>
