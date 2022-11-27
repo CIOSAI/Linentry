@@ -13,7 +13,7 @@ const COMMANDS = {
   }, name: 'SUM'},
 
   LOG :       {trigger: (data: number[], src:Source)=>{
-    receiver.out(data.toString())
+    receiver.out(data.toString().replaceAll('NaN', ' '))
     return {data: [], nextLine: -1}
   }, name: 'LOG'},
 

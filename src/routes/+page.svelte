@@ -8,10 +8,12 @@
   }
 
   let linentry = new Linentry({main: 1, line: [
-    {command: COMMANDS.NOCOMMAND, data: []},
-    {command: COMMANDS.LOG, data: [1, 0]},
-    {command: COMMANDS.LOG, data: [2, 0]},
-    {command: COMMANDS.ON, data: [1, 1, 4]},
+    {command: COMMANDS.NOCOMMAND, data: [0]},
+    {command: COMMANDS.READ, data: [0]},
+    {command: COMMANDS.ON, data: [3, 5]},
+    {command: COMMANDS.LOG, data: [1]},
+    {command: COMMANDS.ON, data: [1, 3, 5]},
+    {command: COMMANDS.LOG, data: [0]},
   ]})
 
   let linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })

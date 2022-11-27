@@ -90,7 +90,36 @@
     style='left: {scrollX%width}px'
   >
     {#each renderedLines as i, ind}
-      <Matrix height={height} width={width} line={i} ind={ind+y} coord={x}/>
+      <Matrix height={height} width={width} line={i} ind={ind+y} coord={x}
+        onDataChanged={(row, column, data)=>{
+          if(row in linentry.src.line){
+            if(column in linentry.src.line[row].data){
+              linentry.src.line[row].data[column] = data
+            }
+            else{
+              for(let j = linentry.src.line[row].data.length; j<=column; j++) {
+                linentry.src.line[row].data.push(
+                  j===column?
+                  data:
+                  NaN
+                )
+              }
+            }
+          }
+          else{
+            for(let j=linentry.src.line.length; j<=row; j++){
+              if(j===row){
+                linentry.src.line.push({command: COMMANDS.NOCOMMAND, 
+                  data: Array(row+1).fill(0).map((v, k)=>k===row?data:NaN)
+                })
+              }
+              else{
+                linentry.src.line.push({command: COMMANDS.NOCOMMAND, data: []})
+              }
+            }
+          }
+        }}
+      />
     {/each}
   </table>
 </div>

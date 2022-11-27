@@ -1,6 +1,5 @@
 <script lang="ts">
   import {type RenderedLine} from '$lib/linentry'
-	import { text } from 'svelte/internal';
   export let height = 40
   export let width = 40
   export let line:RenderedLine
@@ -40,7 +39,7 @@
         else if(new RegExp(/\\[0-9\\]/).test(sourceVal)) sourceVal=sourceVal.charCodeAt(1)
         else if(new RegExp(/-?[0-9]+([.,][0-9]+)?/).test(sourceVal)) sourceVal=Number(sourceVal.replace(',', '.'))
         else sourceVal=sourceVal.charCodeAt(0)
-        
+
         onDataChanged(ind, coord+column, sourceVal)
       }}></td>
   {/each}
