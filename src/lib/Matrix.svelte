@@ -1,11 +1,12 @@
 <script lang="ts">
   import {type RenderedLine} from '$lib/linentry'
+	import { text } from 'svelte/internal';
   export let height = 40
   export let width = 40
   export let line:RenderedLine
   export let ind = 0
   export let coord = 0
-  export let onDataChanged = (index:number, n:number)=>{}
+  export let onDataChanged = (row:number, column:number, n:number)=>{}
 
   let lineData = [...line.data]
   let renderedData = [...lineData]
@@ -25,11 +26,22 @@
 </script>
 
 <tr class='entry' style='height: {height}px'>
-  {#each renderedData as i}
-    <td class='unit' style='width: {width}px'><input type='text' value={i?i:''} placeholder="-" maxlength="2" 
+  {#each renderedData as i, column}
+    <td class='unit' style='width: {width}px'><input type='text' value={isNaN(i)?'':i} placeholder="-" 
       on:change={(e)=>{
-        console.log(e)
-        onDataChanged(ind+i, Number(0))
+        // @ts-ignore
+        let sourceVal = e.target.value
+        
+        if(!new RegExp(/((^|, )(|(-?[0-9]+([.,][0-9]+)?)|[^\\]|\\[0-9\\]))+$/).test(sourceVal)){
+          return
+        }
+
+        if(sourceVal==='') sourceVal=NaN
+        else if(new RegExp(/\\[0-9\\]/).test(sourceVal)) sourceVal=sourceVal.charCodeAt(1)
+        else if(new RegExp(/-?[0-9]+([.,][0-9]+)?/).test(sourceVal)) sourceVal=Number(sourceVal.replace(',', '.'))
+        else sourceVal=sourceVal.charCodeAt(0)
+        
+        onDataChanged(ind, coord+column, sourceVal)
       }}></td>
   {/each}
 </tr>
