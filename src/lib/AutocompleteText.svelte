@@ -5,6 +5,8 @@
 
   let suggest = ''
 
+  $: value = value.toUpperCase()
+
   $: {
     let currentChoice:string|undefined
 

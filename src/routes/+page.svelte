@@ -14,12 +14,12 @@
     {command: COMMANDS.ON, data: [1, 1, 4]},
   ]})
 
-  let renderedLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
+  let linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
   let currentLine = linentry.src.main
 
 
   function rerender(){
-    renderedLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
+    linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
     currentLine = linentry.currentLine
     say = say
   }
@@ -27,7 +27,7 @@
 
 <div id='viewport'>
   <div id='spreadsheetContainer'>
-    <SpreadSheet bind:linentry bind:renderedLines bind:currentLine/>
+    <SpreadSheet bind:linentry bind:linentryLines bind:currentLine/>
   </div>
   <div id='temp'>
     <button on:click={()=>{linentry.next(); rerender()}}>next line</button>

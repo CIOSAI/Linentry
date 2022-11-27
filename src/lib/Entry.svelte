@@ -8,7 +8,10 @@
   export let isMain = false
   export let onCommandChanged = (index:number, str:string)=>{}
 
-  let lineData = line.data
+  let lineData = [...line.data]
+
+  $: lineData = [...line.data]?[...line.data]:[]
+
   $: for(let i=lineData.length; i<8; i++) lineData.push(NaN)
 </script>
 
@@ -23,7 +26,7 @@
     />
   </td>
   {#each lineData as i}
-    <td class='unit'><input type='text' value={i?i:''} maxlength="2"></td>
+    <td class='unit'><input type='text' value={i?i:''} placeholder="-" maxlength="2"></td>
   {/each}
 </tr>
 
@@ -38,5 +41,6 @@
   }
   .unit input{
     width: 2em;
+    border: none;
   }
 </style>
