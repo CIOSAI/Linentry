@@ -7,12 +7,6 @@
   export let isRunning = false
   export let isMain = false
   export let onCommandChanged = (index:number, str:string)=>{}
-
-  let lineData = [...line.data]
-
-  $: lineData = [...line.data]?[...line.data]:[]
-
-  $: for(let i=lineData.length; i<8; i++) lineData.push(NaN)
 </script>
 
 <tr class='entry' style='height: {height}px'>
@@ -25,9 +19,6 @@
       valueHandler={(str)=>{onCommandChanged(ind, str)}}
     />
   </td>
-  {#each lineData as i}
-    <td class='unit'><input type='text' value={i?i:''} placeholder="-" maxlength="2"></td>
-  {/each}
 </tr>
 
 <style>
@@ -35,12 +26,5 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-  }
-  .unit{
-    padding: 0 .5em;
-  }
-  .unit input{
-    width: 2em;
-    border: none;
   }
 </style>
