@@ -20,6 +20,11 @@
   let currentLine = linentry.src.main
 
   function rerender(){
+    linentry.src.line = linentry.src.line.map(v=>{
+      let cleansed:number[] = []
+      v.data.forEach((elm2, ind2)=>{if(v.data.slice(ind2).some((elm3)=>!isNaN(elm3))) cleansed.push(elm2)})
+      return {command: v.command, data: cleansed}
+    })
     linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
     currentLine = linentry.currentLine
     say = say
@@ -32,7 +37,7 @@
 
 <div id='viewport'>
   <div id='spreadsheetContainer'>
-    <SpreadSheet bind:linentry bind:linentryLines bind:currentLine/>
+    <SpreadSheet bind:linentry bind:linentryLines bind:currentLine update={rerender}/>
   </div>
   <div id='temp'>
     <button on:click={()=>{linentry.next(); rerender()}}>next line</button>

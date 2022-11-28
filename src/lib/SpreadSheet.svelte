@@ -6,6 +6,7 @@
   export let linentry:Linentry
   export let linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
   export let currentLine = linentry.src.main
+  export let update = ()=>{}
 
   const height = 30
   const width = 30
@@ -73,9 +74,11 @@
               }
             }
           }
+          update()
         }}
         onMainChanged={(index)=>{
           linentry.src.main = index
+          update()
         }}
       />
     {/each}
@@ -121,6 +124,7 @@
               }
             }
           }
+          update()
         }}
       />
     {/each}

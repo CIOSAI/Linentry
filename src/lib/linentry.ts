@@ -9,12 +9,16 @@ const COMMANDS = {
   }, name: ''},
 
   SUM :       {trigger: (data: number[], src:Source)=>{
-    return {data: [data.reduce((p, c)=>p+c)], nextLine: -1}
+    return {data: [data.filter(v=>v).reduce((p, c)=>p+c)], nextLine: -1}
   }, name: 'SUM'},
 
-  PRODUCT :   {trigger: (data: number[], src:Source)=>{
+  AVG :       {trigger: (data: number[], src:Source)=>{
+    return {data: [data.filter(v=>v).reduce((p, c)=>p+c)/data.filter(v=>v).length], nextLine: -1}
+  }, name: 'AVG'},
+
+  PROD :   {trigger: (data: number[], src:Source)=>{
     return {data: [data.filter(v=>v).reduce((p, c)=>p*c, 1)], nextLine: -1}
-  }, name: 'PRODUCT'},
+  }, name: 'PROD'},
 
   COUNT :     {trigger: (data: number[], src:Source)=>{
     return {data: [data.filter(v=>!isNaN(v)).length], nextLine: -1}
@@ -36,6 +40,14 @@ const COMMANDS = {
     return {data: [data.filter(v=>!isNaN(v)).reduce((p, c)=>Math.max(p, c))], nextLine: -1}
   }, name: 'MAX'},
 
+  PICK :      {trigger: (data: number[], src:Source)=>{
+    return {data: [data[data.length-1] in data?data[data[data.length-1]]:NaN], nextLine: -1}
+  }, name: 'PICK'},
+
+  SECT :      {trigger: (data: number[], src:Source)=>{
+    return {data: data.slice(data[data.length-2], data[data.length-1]), nextLine: -1}
+  }, name: 'SECT'},
+
   INVERSE :   {trigger: (data: number[], src:Source)=>{
     return {data: data.map(v=>v===0?0:1/v), nextLine: -1}
   }, name: 'INVERSE'},
@@ -44,8 +56,12 @@ const COMMANDS = {
     return {data: [...data].slice(0, data.length-1).map(v=>v*data[data.length-1]), nextLine: -1}
   }, name: 'SCALE'},
 
+  POW :       {trigger: (data: number[], src:Source)=>{
+    return {data: [...data].slice(0, data.length-1).map(v=>Math.pow(v, data[data.length-1])), nextLine: -1}
+  }, name: 'POW'},
+
   LOG :       {trigger: (data: number[], src:Source)=>{
-    receiver.out(data.toString().replaceAll('NaN', ' '))
+    receiver.out(data.toString().replaceAll('NaN', ' ').replaceAll(',', ', '))
     return {data: [], nextLine: -1}
   }, name: 'LOG'},
 
@@ -73,12 +89,16 @@ const COMMANDS = {
 
 const namesToCommands = new Map([
   ['SUM', COMMANDS.SUM],
-  ['PRODUCT', COMMANDS.PRODUCT],
+  ['AVG', COMMANDS.AVG],
+  ['PROD', COMMANDS.PROD],
   ['COUNT', COMMANDS.COUNT],
   ['MIN', COMMANDS.MIN],
   ['MAX', COMMANDS.MAX],
+  ['PICK', COMMANDS.PICK],
+  ['SECT', COMMANDS.SECT],
   ['INVERSE', COMMANDS.INVERSE],
   ['SCALE', COMMANDS.SCALE],
+  ['POW', COMMANDS.POW],
   ['CARRY', COMMANDS.CARRY],
   ['MOD', COMMANDS.MOD],
   ['LOG', COMMANDS.LOG],
