@@ -74,6 +74,9 @@
             }
           }
         }}
+        onMainChanged={(index)=>{
+          linentry.src.main = index
+        }}
       />
     {/each}
   </table>

@@ -34,7 +34,8 @@ const COMMANDS = {
   }, name: 'WRITE'},
 
   ON :        {trigger: (data: number[], src:Source)=>{
-    return {data: [], nextLine: data[0]!==0?data[1]:data[2]}
+    let check = !(0 in data) || isNaN(data[0]) || data[0]===0
+    return {data: [], nextLine: check?data[2]:data[1]}
   }, name: 'ON'},
 }
 

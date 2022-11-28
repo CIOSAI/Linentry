@@ -41,14 +41,13 @@
         else sourceVal=sourceVal.charCodeAt(0)
 
         onDataChanged(ind, coord+column, sourceVal)
+
+        lineData = lineData
       }}></td>
   {/each}
 </tr>
 
 <style>
-  .unit{
-    padding: 0 .5em;
-  }
   .unit input{
     width: 100%;
     border: none;

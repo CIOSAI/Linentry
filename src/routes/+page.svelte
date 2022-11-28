@@ -19,11 +19,14 @@
   let linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
   let currentLine = linentry.src.main
 
-
   function rerender(){
     linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
     currentLine = linentry.currentLine
     say = say
+  }
+
+  function clearConsole(){
+    say = []
   }
 </script>
 
@@ -33,6 +36,7 @@
   </div>
   <div id='temp'>
     <button on:click={()=>{linentry.next(); rerender()}}>next line</button>
+    <button on:click={()=>{linentry = new Linentry(linentry.src); rerender(); clearConsole()}}>reset</button>
     <span>linentry says :</span>
     <div class='messages'>
       {#each say as i}
