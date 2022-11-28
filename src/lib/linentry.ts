@@ -12,6 +12,38 @@ const COMMANDS = {
     return {data: [data.reduce((p, c)=>p+c)], nextLine: -1}
   }, name: 'SUM'},
 
+  PRODUCT :   {trigger: (data: number[], src:Source)=>{
+    return {data: [data.filter(v=>v).reduce((p, c)=>p*c, 1)], nextLine: -1}
+  }, name: 'PRODUCT'},
+
+  COUNT :     {trigger: (data: number[], src:Source)=>{
+    return {data: [data.filter(v=>!isNaN(v)).length], nextLine: -1}
+  }, name: 'COUNT'},
+
+  CARRY :     {trigger: (data: number[], src:Source)=>{
+    return {data: [...data], nextLine: -1}
+  }, name: 'CARRY'},
+
+  MOD :       {trigger: (data: number[], src:Source)=>{
+    return {data: [...data].slice(0, data.length-1).map(v=>v%data[data.length-1]), nextLine: -1}
+  }, name: 'MOD'},
+
+  MIN :       {trigger: (data: number[], src:Source)=>{
+    return {data: [data.filter(v=>!isNaN(v)).reduce((p, c)=>Math.min(p, c))], nextLine: -1}
+  }, name: 'MIN'},
+
+  MAX :       {trigger: (data: number[], src:Source)=>{
+    return {data: [data.filter(v=>!isNaN(v)).reduce((p, c)=>Math.max(p, c))], nextLine: -1}
+  }, name: 'MAX'},
+
+  INVERSE :   {trigger: (data: number[], src:Source)=>{
+    return {data: data.map(v=>v===0?0:1/v), nextLine: -1}
+  }, name: 'INVERSE'},
+
+  SCALE :     {trigger: (data: number[], src:Source)=>{
+    return {data: [...data].slice(0, data.length-1).map(v=>v*data[data.length-1]), nextLine: -1}
+  }, name: 'SCALE'},
+
   LOG :       {trigger: (data: number[], src:Source)=>{
     receiver.out(data.toString().replaceAll('NaN', ' '))
     return {data: [], nextLine: -1}
@@ -41,6 +73,14 @@ const COMMANDS = {
 
 const namesToCommands = new Map([
   ['SUM', COMMANDS.SUM],
+  ['PRODUCT', COMMANDS.PRODUCT],
+  ['COUNT', COMMANDS.COUNT],
+  ['MIN', COMMANDS.MIN],
+  ['MAX', COMMANDS.MAX],
+  ['INVERSE', COMMANDS.INVERSE],
+  ['SCALE', COMMANDS.SCALE],
+  ['CARRY', COMMANDS.CARRY],
+  ['MOD', COMMANDS.MOD],
   ['LOG', COMMANDS.LOG],
   ['ECHO', COMMANDS.ECHO],
   ['READ', COMMANDS.READ],
