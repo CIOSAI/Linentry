@@ -37,6 +37,7 @@
         
         if(!new RegExp(/((^|, )(|(-?[0-9]+([.,][0-9]+)?)|[^\\]|\\[0-9\\]))+$/).test(sourceVal)){
           dataUnusable[i] = true
+          alert(`'${sourceVal}' is not usable, the data will not update to it.`)
           return
         }
         dataUnusable[i] = false

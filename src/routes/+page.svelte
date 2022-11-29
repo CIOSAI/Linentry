@@ -42,7 +42,7 @@
   <div id='temp'>
     <button on:click={()=>{linentry.next(); rerender()}}>next line</button>
     <button on:click={()=>{linentry = new Linentry(linentry.src); rerender(); clearConsole()}}>reset</button>
-    <span>linentry says :</span>
+    <span>from last line: {linentry.carry}</span>
     <div class='messages'>
       {#each say as i}
         <p>{i}</p>
@@ -69,6 +69,5 @@
   #temp{
     position: relative;
     z-index: inherit;
-    background-color: #ff0000;
   }
 </style>
