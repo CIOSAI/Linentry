@@ -83,3 +83,8 @@ SECT: => the number from index [-2] to index [-1] of the inputs
 
 MOD: => the inputs(excluding [-1]) modulo to [-1]
 
+INVERSE: => inverse of the inputs ( inverse of 0 is set to 1 here bcuz yes )
+
+SCALE: => the inputs(excluding [-1]) multiplied by [-1]
+
+POW: => the inputs(excluding [-1]) raised to [-1]th power
