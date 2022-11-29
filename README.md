@@ -1,38 +1,60 @@
-# create-svelte
+# Linentry
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Ever wanted a runnable spreadsheet? Me either! Here it is!
 
-## Creating a project
+# Layout
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Commands, where functions run
+- Data, a big 2d sheet to put data in
+- Next Line, executes next line
+- Auto Play, executes the code on a timer ( click again to pause )
+- Reset, clears output and put the line pointer back to main
+- From Last Line, data from the last line that will carry into the next line
+- Output, where LOG and ECHO outputs to
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+### What the hell is going on tbh bruh
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+The example loaded as you open the page is a _Truth Machine_, when the input is true, output 1 indefinitely, when the input is false, output 0 once only
 
-## Developing
+The main line is 1st line, READ reads the line that its data at index 0 says, the 0th line, which returns an array, it has one item, 0, in there
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+This data pass downwards, this is called carry, it concatenates to the data of, in this case, line 2 as ON's input
 
-```bash
-npm run dev
+ON takes the 0th input and check, if true it goes to 1st input's line, here it's 3, if false it goes to 2nd input's line, here 5
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+LOG outputs the number 1, and then move on to the next line
 
-## Building
+The ON of line 4 didn't take carry like the first ON, here it checks 1, resulting in true, going to line 3, which is outputting 1
 
-To create a production version of your app:
+If it jumped to the 5th line, LOG outputs 0, and then goes to line 6, which just does nothing, thus ends the program
 
-```bash
-npm run build
-```
+### Command Lines
 
-You can preview the production build with `npm run preview`.
+Line with border means starting line
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Green tick signifies the current running line
+
+Click on the button right of the line number to change starting line to it
+
+Scrolls in the y-axis
+
+( I haven't made it show when you've focused on the textarea but trust yourself you are focused lmao )
+
+### Data Entries
+
+Takes only one of these four :
+
+- empty
+- one unicode character ( it turns into its unicode index, that's intended )
+- number ( negative and floats are allowed )
+- backslash plus numbers or backslash plus backslash, this is how to input them as unicode character
+
+### Commands
+
+READ: => data on the [0]th line | next line
+
+ON: => | if [0] is exactly 0 or empty go to [2]th line, otherwise [1]th line
+
+LOG: outputs the input as numbers => | next line
+
+ECHO: floors the numbers and output as unicode index => | next line
