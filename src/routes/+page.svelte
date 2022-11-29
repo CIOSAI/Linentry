@@ -43,6 +43,7 @@
 </script>
 
 <div id='viewport'>
+  <a href='https://github.com/CIOSAI/Linentry' target='_blank' rel='noreferrer noopener'>DOCS</a>
   <div id='spreadsheetContainer'>
     <SpreadSheet bind:linentry bind:linentryLines bind:currentLine update={rerender}/>
   </div>
