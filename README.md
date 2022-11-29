@@ -51,10 +51,35 @@ Takes only one of these four :
 
 ### Commands
 
-READ: => data on the [0]th line | next line
+_NAME: what it does => what it passes down | where it goes next if not next line_
+
+READ: => data on the [0]th line
+
+WRITE: writes the input on [-1]th line  =>
 
 ON: => | if [0] is exactly 0 or empty go to [2]th line, otherwise [1]th line
 
-LOG: outputs the input as numbers => | next line
+LOG: outputs the input as numbers =>
 
-ECHO: floors the numbers and output as unicode index => | next line
+ECHO: floors the numbers and output as unicode index =>
+
+SUM: => sum of the inputs
+
+PROD: => product of the inputs
+
+AVG: => average of the inputs
+
+COUNT: => amount of data inputs
+
+CARRY: => the inputs
+
+MIN: => smallest number of the inputs
+
+MAX: => largest number of the inputs
+
+PICK: => the number on index [-1] of the inputs
+
+SECT: => the number from index [-2] to index [-1] of the inputs
+
+MOD: => the inputs(excluding [-1]) modulo to [-1]
+
