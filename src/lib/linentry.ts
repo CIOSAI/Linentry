@@ -49,7 +49,7 @@ const COMMANDS = {
   }, name: 'SECT'},
 
   INVERSE :   {trigger: (data: number[], src:Source)=>{
-    return {data: data.map(v=>v===0?0:1/v), nextLine: -1}
+    return {data: data.map(v=>v===0?1:1/v), nextLine: -1}
   }, name: 'INVERSE'},
 
   SCALE :     {trigger: (data: number[], src:Source)=>{
