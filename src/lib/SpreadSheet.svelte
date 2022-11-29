@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { COMMANDS, Linentry, namesToCommands } from '$lib/linentry.js';
+  import { COMMANDS, Linentry, namesToCommands, type RenderedLine } from '$lib/linentry.js';
   import Entry from '$lib/Entry.svelte';
   import Matrix from './Matrix.svelte';
 
   export let linentry:Linentry
-  export let linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
+  export let linentryLines:RenderedLine[]
   export let currentLine = linentry.src.main
   export let update = ()=>{}
 
@@ -130,7 +130,7 @@
               for(let j=linentry.src.line.length; j<=row; j++){
                 if(j===row){
                   linentry.src.line.push({command: COMMANDS.NOCOMMAND, 
-                    data: Array(row+1).fill(0).map((v, k)=>k===row?data:NaN)
+                    data: Array(column+1).fill(0).map((v, k)=>k===column?data:NaN)
                   })
                 }
                 else{
