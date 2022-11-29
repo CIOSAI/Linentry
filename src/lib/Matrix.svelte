@@ -9,6 +9,7 @@
 
   let lineData = [...line.data]
   let renderedData = [...lineData]
+  let dataUnusable = [...lineData].map(()=>false)
 
   $: lineData = [...line.data]?[...line.data]:[]
 
@@ -22,18 +23,23 @@
       )
     }
   }
+
+  $: dataUnusable = dataUnusable
 </script>
 
 <tr class='entry' style='height: {height}px'>
   {#each renderedData as i, column}
-    <td class='unit' style='width: {width}px'><input type='text' value={isNaN(i)?'':i} placeholder="-" 
+    <td class='unit' style='width: {width}px; color: {dataUnusable[i]?'#f00':'#000'}'>
+      <input type='text' value={isNaN(i)?'':i} placeholder="-" 
       on:change={(e)=>{
         // @ts-ignore
         let sourceVal = e.target.value
         
         if(!new RegExp(/((^|, )(|(-?[0-9]+([.,][0-9]+)?)|[^\\]|\\[0-9\\]))+$/).test(sourceVal)){
+          dataUnusable[i] = true
           return
         }
+        dataUnusable[i] = false
 
         if(sourceVal==='') sourceVal=NaN
         else if(new RegExp(/\\[0-9\\]/).test(sourceVal)) sourceVal=sourceVal.charCodeAt(1)
@@ -51,5 +57,6 @@
   .unit input{
     width: 100%;
     border: none;
+    color: inherit;
   }
 </style>
