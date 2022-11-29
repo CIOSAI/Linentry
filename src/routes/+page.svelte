@@ -18,6 +18,8 @@
 
   let linentryLines = linentry.src.line.map(v=>{ return {command: v.command.name, data: v.data} })
   let currentLine = linentry.src.main
+  let playing = false
+  let intervalHash:NodeJS.Timer
 
   function rerender(){
     linentry.src.line = linentry.src.line.map(v=>{
@@ -33,6 +35,11 @@
   function clearConsole(){
     say = []
   }
+
+  function next(){
+    linentry.next()
+    rerender()
+  }
 </script>
 
 <div id='viewport'>
@@ -40,7 +47,12 @@
     <SpreadSheet bind:linentry bind:linentryLines bind:currentLine update={rerender}/>
   </div>
   <div id='temp'>
-    <button on:click={()=>{linentry.next(); rerender()}}>next line</button>
+    <button on:click={next}>next line</button>
+    {#if playing}
+      <button on:click={()=>{clearInterval(intervalHash); playing = false}}>pause</button>
+    {:else}
+      <button on:click={()=>{intervalHash = setInterval(next, 1000); playing = true}}>auto play</button>
+    {/if}
     <button on:click={()=>{linentry = new Linentry(linentry.src); rerender(); clearConsole()}}>reset</button>
     <span>from last line: {linentry.carry}</span>
     <div class='messages'>
