@@ -1,6 +1,7 @@
 <script lang="ts">
   import {type RenderedLine, namesToCommands} from '$lib/linentry'
   import AutocompleteText from './AutocompleteText.svelte';
+  export let width = 40;
   export let height = 40
   export let line:RenderedLine
   export let ind = 0
@@ -11,7 +12,7 @@
 </script>
 
 <tr class='entry' style='height: {height}px'>
-  <td class='index' style='border: {isMain?'2px':'0'} solid #000'>{ind}</td>
+  <td class='index' style='border: {isMain?'2px':'0'} solid #000; width: {width}px'>{ind}</td>
   <td class='tick'>
     <button 
       style='color: {isRunning?'#0f0':'#00000000'}' 

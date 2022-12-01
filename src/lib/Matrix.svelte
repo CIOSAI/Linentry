@@ -55,6 +55,10 @@
 </tr>
 
 <style>
+  td{
+    margin: 0;
+    padding: 0;
+  }
   .unit input{
     width: 100%;
     border: none;

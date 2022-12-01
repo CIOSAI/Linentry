@@ -1,7 +1,9 @@
 <script lang="ts">
   import { COMMANDS, Linentry, namesToCommands, type RenderedLine } from '$lib/linentry.js';
   import Entry from '$lib/Entry.svelte';
-  import Matrix from './Matrix.svelte';
+  import Matrix from '$lib/Matrix.svelte';
+	import SelectArea from '$lib/SelectArea.svelte';
+	import { onMount } from 'svelte';
 
   export let linentry:Linentry
   export let linentryLines:RenderedLine[]
@@ -18,6 +20,14 @@
   let x = 0
   let y = 0
   let matrixHead = Array(16).fill(0).map((v, ind)=>ind)
+  let domEntryHead:undefined|HTMLElement
+  let selectAreaOffsets = {leftExtend1: 0, leftExtend2: 0, topExtend: 0}
+
+  onMount(()=>{
+    selectAreaOffsets.leftExtend1 = width
+    selectAreaOffsets.leftExtend2 = domEntryHead?.getBoundingClientRect().width as number - width
+    selectAreaOffsets.topExtend = domEntryHead?.getBoundingClientRect().height as number
+  })
 
   $: {
     renderedLines = []
@@ -38,9 +48,19 @@
 </script>
 
 <svelte:window 
+  on:mousedown={(e)=>{
+    if(e.button==0){
+      console.log("left down")
+      console.log(`${e.clientX} ${e.clientY}`)
+    }
+  }}
   on:mouseup={(e)=>{
     if(e.button==1){
       scrolling = false
+    }
+    else if(e.button==0){
+      console.log("left up")
+      console.log(`${e.clientX} ${e.clientY}`)
     }
   }}
   on:mousemove={(e)=>{
@@ -55,11 +75,12 @@
     scrollY += e.wheelDeltaY/10;
   }}>
   <div id='entry-panel'>
-    <div id='entry-head' style='height: 2em'/>
+    <div id='entry-head' style='height: 2em'
+    bind:this={domEntryHead}/>
     <table id='entries' 
     style='top: {scrollY%height}px'>
       {#each renderedLines as i, ind}
-        <Entry height={height} line={i}
+        <Entry width={width} height={height} line={i}
           ind={ind+y} isMain={ind+y==linentry.src.main} isRunning={ind+y==currentLine}
           onCommandChanged={(index, str)=>{
             let commandToAdd = namesToCommands.has(str)?namesToCommands.get(str):COMMANDS.NOCOMMAND
@@ -90,7 +111,7 @@
   </div>
   
   <div id='matrix-panel'>
-      <table id='matrix-head'
+    <table id='matrix-head'
       style='height: 2em; left: {scrollX%width}px'
     ><tr>
       {#each matrixHead as i}
@@ -144,6 +165,14 @@
       {/each}
     </table>
   </div>
+
+  <SelectArea 
+    leftExtend1={selectAreaOffsets.leftExtend1}
+    leftExtend2={selectAreaOffsets.leftExtend2}
+    topExtend={selectAreaOffsets.topExtend}
+    width={width}
+    height={height}
+  />
 </div>
 
 <style>
@@ -154,12 +183,18 @@
   }
   #entries{
     position: relative;
+    border-spacing: 0;
+    border-collapse: collapse;
   }
   #matrix-head{
     position: relative;
+    border-spacing: 0;
+    border-collapse: collapse;
     z-index: 1;
   }
   #matrix{
     position: relative;
+    border-spacing: 0;
+    border-collapse: collapse;
   }
 </style>
