@@ -12,7 +12,7 @@
 </script>
 
 <tr class='entry' style='height: {height}px'>
-  <td class='index' style='border: {isMain?'2px':'0'} solid #000; width: {width}px'>{ind}</td>
+  <td class='index' style='border: {isMain?'2px':'0'} solid #000; min-width: {width}px'>{ind}</td>
   <td class='tick'>
     <button 
       style='color: {isRunning?'#0f0':'#00000000'}' 

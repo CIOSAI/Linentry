@@ -22,6 +22,11 @@
   let matrixHead = Array(16).fill(0).map((v, ind)=>ind)
   let domEntryHead:undefined|HTMLElement
   let selectAreaOffsets = {leftExtend1: 0, leftExtend2: 0, topExtend: 0}
+  let selectFrom = {x: 0, y: 0}
+  let selectTo = {x: 0, y: 0}
+  let dragFrom = {x: 0, y: 0}
+  let dragTo = {x: 0, y: 0}
+  let selecting = false
 
   onMount(()=>{
     selectAreaOffsets.leftExtend1 = width
@@ -50,8 +55,8 @@
 <svelte:window 
   on:mousedown={(e)=>{
     if(e.button==0){
-      console.log("left down")
-      console.log(`${e.clientX} ${e.clientY}`)
+      selecting = true
+      dragFrom = {x: e.clientX, y: e.clientY}
     }
   }}
   on:mouseup={(e)=>{
@@ -59,14 +64,17 @@
       scrolling = false
     }
     else if(e.button==0){
-      console.log("left up")
-      console.log(`${e.clientX} ${e.clientY}`)
+      selecting = false
+      dragTo = {x: e.clientX, y: e.clientY}
     }
   }}
   on:mousemove={(e)=>{
     if(scrolling){
       scrollX += e.movementX
       scrollY += e.movementY
+    }
+    if(e.button==0 && selecting){
+      dragTo = {x: e.clientX, y: e.clientY}
     }
   }}/>
 <div id='wrap'
@@ -115,7 +123,7 @@
       style='height: 2em; left: {scrollX%width}px'
     ><tr>
       {#each matrixHead as i}
-        <th style='width: {width}px'>{x+i}</th>
+        <th style='min-width: {width}px'>{x+i}</th>
       {/each}
     </tr></table>
     <table id='matrix'
@@ -172,6 +180,8 @@
     topExtend={selectAreaOffsets.topExtend}
     width={width}
     height={height}
+    bind:dragFrom
+    bind:dragTo
   />
 </div>
 
